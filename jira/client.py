@@ -2856,7 +2856,11 @@ class JIRA(object):
         Returns:
             User
         """
-        user = User(self._options, self._session)
+        user = User(
+            self._options,
+            self._session,
+            _query_param="accountId" if self._is_cloud else "username",
+        )
         params = {}
         if expand is not None:
             params["expand"] = expand
