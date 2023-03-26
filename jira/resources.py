@@ -34,6 +34,7 @@ __all__ = (
     "Comment",
     "Project",
     "Attachment",
+    "Changelog",
     "Component",
     "Dashboard",
     "Filter",
@@ -972,6 +973,21 @@ class Worklog(Resource):
         super().delete(params)
 
 
+class Changelog(Resource):
+    """Changelog on an issue."""
+
+    def __init__(
+        self,
+        options: Dict[str, str],
+        session: ResilientSession,
+        raw: Dict[str, Any] = None,
+    ):
+        Resource.__init__(self, "issue/{0}/changelog/{1}", options, session)
+        if raw:
+            self._parse_raw(raw)
+        self.raw: Dict[str, Any] = cast(Dict[str, Any], self.raw)
+
+
 class IssueProperty(Resource):
     """Custom data against an issue."""
 
@@ -1501,6 +1517,7 @@ resource_class_map: Dict[str, Type[Resource]] = {
     r"dashboard/[^/]+$": Dashboard,
     r"filter/[^/]$": Filter,
     r"issue/[^/]+$": Issue,
+    r"issue/[^/]+/changelog/[^/]+$": Changelog,
     r"issue/[^/]+/comment/[^/]+$": Comment,
     r"issue/[^/]+/votes$": Votes,
     r"issue/[^/]+/watchers$": Watchers,

@@ -60,6 +60,7 @@ from jira.resources import (
     AtlassianConnectResource,
     Attachment,
     Board,
+    Changelog,
     Comment,
     Component,
     Customer,
@@ -2478,6 +2479,42 @@ class JIRA:
         r = self._session.post(url, params=params, data=json.dumps(data))
 
         return Worklog(self._options, self._session, json_loads(r))
+
+    # Changelogs
+    @translate_resource_args
+    def changelogs(
+        self, issue: Union[str, int], startAt=0, maxResults=100
+    ) -> ResultList[Changelog]:
+        """Get a list of changelog Resources from the server for an issue.
+
+        Args:
+            issue (Union[str, int]): ID or key of the issue to get changelogs from
+            startAt (int): index of the first changelog to return (Default: ``0``)
+            maxResults (int): maximum number of changelogs to return.
+
+        Returns:
+            List[Changelog]
+        """
+        return self._fetch_pages(
+            Changelog,
+            "values",
+            "issue/" + str(issue) + "/changelog",
+            startAt,
+            maxResults,
+        )
+
+    @translate_resource_args
+    def changelog(self, issue: Union[str, int], id: str) -> Changelog:
+        """Get a specific changelog Resource from the server.
+
+        Args:
+            issue (Union[str, int]): ID or key of the issue to get the changelog from
+            id (str): ID of the changelog to get
+
+        Returns:
+            Changelog
+        """
+        return self._find_for_resource(Changelog, (issue, id))
 
     # Issue properties
 
