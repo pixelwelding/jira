@@ -3773,6 +3773,8 @@ class JIRA:
         )
         return self._session.put(url, data=json.dumps(data))
 
+    # Dynamic modules
+
     # Websudo
     def kill_websudo(self) -> Optional[Response]:
         """Destroy the user's current WebSudo session.

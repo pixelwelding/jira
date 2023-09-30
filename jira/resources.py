@@ -1447,6 +1447,17 @@ class AppProperty(AtlassianConnectResource):
         self.self = self._get_url(self.PATH.format(*id))
 
 
+class DynamicModule(AtlassianConnectResource):
+    """An AtlassianConnect dynamic module."""
+
+    PATH = "app/module/dynamic"
+
+    def __init__(self, options, session, raw=None):
+        AtlassianConnectResource.__init__(self, self.PATH, options, session, raw)
+        if raw:
+            self._parse_raw(raw)
+
+
 # Utilities
 
 
