@@ -3794,7 +3794,7 @@ class JIRA:
         )
         return self._session.post(url, data=json.dumps(data))
 
-    def delete_dynamic_modules(self) -> Response:
+    def remove_dynamic_modules(self) -> Response:
         url = self._get_url(
             DynamicModule.PATH,
             base=AtlassianConnectResource.ACE_BASE_URL,
