@@ -66,6 +66,7 @@ from jira.resources import (
     Customer,
     CustomFieldOption,
     Dashboard,
+    DynamicModule,
     Filter,
     Group,
     Issue,
@@ -3774,6 +3775,31 @@ class JIRA:
         return self._session.put(url, data=json.dumps(data))
 
     # Dynamic modules
+    def dynamic_modules(self) -> DynamicModule:
+        """Get the dynamic modules registered.
+
+        Returns:
+            DynamicModule
+        """
+        r_json = self._get_json(
+            DynamicModule.PATH,
+            base=AtlassianConnectResource.ACE_BASE_URL,
+        )
+        return DynamicModule(self._options, self._session, raw=r_json)
+
+    def register_dynamic_modules(self, data: Dict[str, Any]) -> Response:
+        url = self._get_url(
+            DynamicModule.PATH,
+            base=AtlassianConnectResource.ACE_BASE_URL,
+        )
+        return self._session.post(url, data=json.dumps(data))
+
+    def delete_dynamic_modules(self) -> Response:
+        url = self._get_url(
+            DynamicModule.PATH,
+            base=AtlassianConnectResource.ACE_BASE_URL,
+        )
+        return self._session.delete(url)
 
     # Websudo
     def kill_websudo(self) -> Optional[Response]:
